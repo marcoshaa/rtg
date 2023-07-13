@@ -1,0 +1,37 @@
+version: '3'
+services:
+    ci4-web:
+        build:
+            context: ./php
+        ports:
+            - 80:80
+        volumes:
+            - ..:/var/www/html/app/
+        links:
+            - 'mysql'
+        container_name: ci4-web
+        extra_hosts:
+            - "host.docker.internal:172.17.0.1"
+    mysql:
+        build: ./mysql
+        restart: always
+        tty: true
+        volumes:
+            - ./db:/var/lib/mysql
+        ports:
+            - 3306:3306
+        environment:
+            - MYSQL_DATABASE=nesttrav_db
+            - MYSQL_ROOT_PASSWORD=root
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: pmanest
+        links:
+            - mysql
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+            PMA_ARBITRARY: 1
+        restart: always
+        ports:
+            - 8081:80      

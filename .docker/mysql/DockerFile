@@ -1,0 +1,7 @@
+FROM mysql:5.7
+
+RUN usermod -u 1000 mysql
+
+#ADD init_db.sh /tmp/init_db.sh
+
+#RUN /tmp/init_db.sh
